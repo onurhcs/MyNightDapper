@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MyNightDapper.Dtos.SpofityDtos.ResultSpotifyDto>
+
+@{
+    ViewData["Title"] = "Spotify Verileri - Sayfalama";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Spotify Verileri</h4>
+                        <p>Toplam Kayıt Sayısı: @Model.Count().ToString("N0")</p>
+
+                        <!-- Arama Kutusu ve Buton -->
+                        <div class="input-group mb-3">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Sanatçı adı, parça adı veya tür ara...">
+                            <div class="input-group-append">
+                                <button id="searchButton" class="btn btn-primary" type="button">Ara</button>
+                            </div>
+                        </div>
+
+                        <!-- Tablo -->
+                        @if (!Model.Any())
+                        {
+                            <div class="alert alert-warning text-center">Gösterilecek veri bulunamadı.</div>
+                        }
+                        else
+                        {
+                            <div class="table-responsive">
+                                <table id="multi_col_order" class="table table-striped table-bordered display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Sanatçı Adı</th>
+                                            <th>Parça Adı</th>
+                                            <th>Tür</th>
+                                            <th>Popülerlik</th>
+                                            <th>Yıl</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.column1</td>
+                                                <td>@item.artist_name</td>
+                                                <td>@item.track_name</td>
+                                                <td>@item.genre</td>
+                                                <td>@item.popularity</td>
+                                                <td>@item.year</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                        <!-- Sayfalama Butonları -->
+                        <div class="pagination-container text-center mt-4">
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    @if ((int)ViewData["CurrentPage"] > 1)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("SpotifyList", new { page = 1 })">İlk</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("SpotifyList", new { page = (int)ViewData["CurrentPage"] - 1 })">Önceki</a>
+                                        </li>
+                                    }
+
+                                    @for (int i = Math.Max(1, (int)ViewData["CurrentPage"] - 2); i <= Math.Min((int)ViewData["TotalPages"], (int)ViewData["CurrentPage"] + 2); i++)
+                                    {
+                                        <li class="page-item @(i == (int)ViewData["CurrentPage"] ? "active" : "")">
+                                            <a class="page-link" href="@Url.Action("SpotifyList", new { page = i })">@i</a>
+                                        </li>
+                                    }
+
+                                    @if ((int)ViewData["CurrentPage"] < (int)ViewData["TotalPages"])
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("SpotifyList", new { page = (int)ViewData["CurrentPage"] + 1 })">Sonraki</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("SpotifyList", new { page = (int)ViewData["TotalPages"] })">Son</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer text-center text-muted">
+        Tüm Hakları Saklıdır. Onur Hacıosmanoğlu Tarafından Tasarlanmış ve Geliştirilmiştir.
+    </footer>
+</div>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MyNightDapper.Dtos.CarsDtos.ResultCarsDto>
+
+<h2>Araba Listesi</h2>
+<a href="/Car/CreateCar" class="btn btn-primary">Yeni Araç Ekle</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Motor</th>
+            <th>Fiyat</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Company_Names</td>
+                <td>@car.Cars_Names</td>
+                <td>@car.Engines</td>
+                <td>@car.Cars_Prices</td>
+                <td>
+                    <a href="/Car/UpdateCar/@car.CarsId" class="btn btn-warning">Düzenle</a>
+                    <form method="post" asp-action="DeleteCar" asp-route-id="@car.CarsId" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

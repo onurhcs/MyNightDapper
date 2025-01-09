@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "SpotifyChart";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-wrapper">
+    <div class="container-fluid">
+        @await Html.PartialAsync("~/Views/SpofityChart/GetSpotifyData.cshtml")
+
+        <div class="row">
+            @await Html.PartialAsync("~/Views/SpofityChart/GetPopularityAnalysisAsync.cshtml")
+
+            @await Html.PartialAsync("~/Views/SpofityChart/GetPopularityAnalysis.cshtml")
+        </div>
+    </div>
+</div>
+
