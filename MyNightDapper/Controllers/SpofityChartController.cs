@@ -20,14 +20,12 @@ namespace MyNightDapper.Controllers
             _spofityRepository = spofityRepository;
         }
 
-        // SpotifyChart View için tüm verileri alır.
         public async Task<IActionResult> SpotifyChart()
         {
             var spotifyData = await _spofityRepository.GetAllSpotifyAsync();
             return View(spotifyData);
         }
 
-        // Veritabanından Spotify verilerini getirir.
         [HttpGet]
         public IEnumerable<SpotifyDataDto> GetSpotifyData()
         {

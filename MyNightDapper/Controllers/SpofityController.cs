@@ -15,16 +15,12 @@ namespace MyNightDapper.Controllers
 
         public async Task<IActionResult> SpotifyList(int page = 1, int pageSize = 20)
         {
-            // Toplam veri
             var spotifyData = await _spofityRepository.GetAllSpotifyAsync();
 
-            // Sayfalama işlemi
             var paginatedData = spotifyData
-                .Skip((page - 1) * pageSize) // Önceki sayfaları atla
-                .Take(pageSize) // Belirtilen sayfa boyutunu al
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize) 
                 .ToList();
-
-            // ViewData ile toplam sayfa sayısını gönder
             ViewData["TotalPages"] = (int)Math.Ceiling((double)spotifyData.Count() / pageSize);
             ViewData["CurrentPage"] = page;
 
@@ -41,12 +37,12 @@ namespace MyNightDapper.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSpotify(CreateSpotifyDto createSpotifyDto)
         {
-            if (ModelState.IsValid) // DTO doğrulama kontrolü
+            if (ModelState.IsValid)
             {
                 await _spofityRepository.CreateSpotifyAsync(createSpotifyDto);
                 return RedirectToAction("SpotifyList");
             }
-            return View(createSpotifyDto); // Hatalı giriş durumunda aynı sayfaya geri dön
+            return View(createSpotifyDto);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteSpotify(int id)
